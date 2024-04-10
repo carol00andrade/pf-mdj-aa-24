@@ -18,3 +18,7 @@ def portifolio ():
 @app.route("/curriculo")
 def curriculo ():
     return render_template("curriculo.html")
+
+@app.route("/noticias")
+def noticias ():
+    return render_template("noticias.html")
