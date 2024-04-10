@@ -2,8 +2,8 @@
 
 from flask import Flask, request, render_template
 import requests
-import BeautifulSoup
-import pandas
+from bs4 import BeautifulSoup
+pip install lxml
 
 app = Flask(__name__)
 
