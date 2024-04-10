@@ -103,16 +103,13 @@ def envia_email():
     server.starttls()  
     server.login(email, password) 
 
-    # Preparando o objeto da mensagem ("documento" do email):
     mensagem = MIMEMultipart()
     mensagem["From"] = remetente
     mensagem["To"] = ", ".join(destinatario)
     mensagem["Subject"] = titulo
 
-    # Adicionando o corpo do e-mail como parte da mensagem
     mensagem.attach(MIMEText(corpo, 'plain'))
 
-    # Enviando o email pela conexão já estabelecida:
     server.sendmail(remetente, destinatario, mensagem.as_string())
     server.quit()  
     return 'E-mail enviado'
