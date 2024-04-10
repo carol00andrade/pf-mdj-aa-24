@@ -84,35 +84,40 @@ def normaliza(texto):
   texto = re.sub(r"\s+", " ", texto)
   return texto.strip()
 
-Envia matérias selecionadas da home do dia:
+def selecionar_noticias_com_palavra_chave(noticias, palavras_chave):
+    titulos_selecionados = []
+    for titulo, link in noticias:
+        for palavra in palavras_chave:
+            if palavra in titulo.lower():
+                titulos_selecionados.append([titulo, link])
+                break  
+    return titulos_selecionados
 
-return titulos_selecionados
+# Dados para conexão no servidor SMTP:
+smtp_server = "smtp-relay.brevo.com"
+port = 587
+email = "carol00andrade@gmail.com"
+password = ""  # MUDE AQUI
 
-def envia_email():
-    smtp_server = "smtp-relay.brevo.com"
-    port = 587
-    email = "carol00andrade@gmail.com" 
-    password = 
+# Dados para o email que será enviado:
+remetente = "Ana Carolina Andrade" 
+destinatarios = ["carol00andrade; alvarojusten@gmail.com"]
+titulo = "Raspagem de notícias sobre violência de gênero no UOL"
+html = """
 
-    remetente = request.form['email']
-    destinatario = ["carol00andrade@gmail.com", 'alvarojusten@gmail.com']
-    titulo = request.form['titulo']
-    corpo = request.form['corpo']
+# Iniciando conexão com o servidor:
+server = smtplib.SMTP(smtp_server, port)  # Inicia a conexão com o servidor
+server.starttls()  # Altera a comunicação para utilizar criptografia
+server.login(email, password)  # Autentica
 
-    server = smtplib.SMTP(smtp_server, port) 
-    server.starttls()  
-    server.login(email, password) 
+# Preparando o objeto da mensagem ("documento" do email):
+mensagem = MIMEMultipart()
+mensagem["From"] = remetente
+mensagem["To"] = ",".join(destinatarios)
+mensagem["Subject"] = titulo
+conteudo_html = MIMEText(html, "html")  # Adiciona a versão em HTML
+mensagem.attach(conteudo_html)
 
-    mensagem = MIMEMultipart()
-    mensagem["From"] = remetente
-    mensagem["To"] = ", ".join(destinatario)
-    mensagem["Subject"] = titulo
+# Enviando o email pela conexão já estabelecida:
+server.sendmail(remetente, destinatarios, mensagem.as_string())
 
-    mensagem.attach(MIMEText(corpo, 'plain'))
-
-    server.sendmail(remetente, destinatario, mensagem.as_string())
-    server.quit()  
-    return 'E-mail enviado'
-
-if __name__ == "__main__":
-    app.run(debug=True)
