@@ -24,7 +24,7 @@ def curriculo ():
 
 @app.route("/noticias")
 def noticias():
-    palavra_chave = request.args.get('palavra_chave', '')
+    palavra_chave = request.args.get('palavra_chave', 'mulher')
     if not palavra_chave:
         return "Por favor, especifique uma palavra-chave na URL."
     url = 'https://noticias.uol.com.br/'
