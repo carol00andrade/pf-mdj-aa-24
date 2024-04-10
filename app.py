@@ -21,13 +21,32 @@ def portifolio ():
 def curriculo ():
     return render_template("curriculo.html")
 
-# Página dinâmica
-
+## Página dinâmica para exibir notícias filtradas por palavra-chave
 @app.route("/noticias")
-def noticias ():
-    return render_template("noticias.html")
+def noticias():
+    palavra_chave = request.args.get('palavra_chave', '')
+    
+    if not palavra_chave:
+        return "Por favor, especifique uma palavra-chave na URL."
+    
+    url = 'https://noticias.uol.com.br/'
 
-## Raspador de notícias
+        palavras_chave_disponiveis = ['afogada', 'agredida', 'agrediu', 'agressão', 'amante', 'arma', 'assassinada', 'assassinadas', 'assassinato', 'assassinou', 'atirou', 'casamento', 'chuta', 'companheiro', 'consentimento', 'corpo', 'deputada', 'esfaqueada', 'esposa', 'estupro', 'ex-marido', 'ex-namorado', 'faca', 'facada', 'feminicídio', 'filha', 'gênero', 'machismo', 'machista', 'matar', 'marido', 'mataram', 'matava', 'matou', 'matamos', 'menina', 'morta', 'mortas', 'mortes', 'morre', 'morreu', 'mordida', 'mulher', 'namorada', 'queimada', 'sexual', 'tapa', 'tiro', 'vítima', 'violência', 'vereadora']
+
+    if palavra_chave not in palavras_chave_disponiveis:
+        return "Palavra-chave inválida. Por favor, escolha uma das palavras-chave disponíveis."
+ 
+    manchetes_selecionadas = raspar_e_selecionar_noticias(url, [palavra_chave])
+   
+    noticias_html = manchetes_selecionadas.to_html(index=False)
+
+    return render_template("noticias.html", noticias_html=noticias_html)
+
+def raspar_e_selecionar_noticias(url, palavras_chave):
+    manchetes = raspar_noticias(url)
+    manchetes_selecionadas = selecionar_noticias_com_palavra_chave(manchetes, palavras_chave)
+    df = pd.DataFrame(manchetes_selecionadas, columns=['Título', 'Link'])
+    return df
 
 def raspar_noticias(url):
     requisicao = requests.get(url)
@@ -53,16 +72,7 @@ def selecionar_noticias_com_palavra_chave(noticias, palavras_chave):
                 break  # Interrompe o loop assim que uma palavra-chave for encontrada
     return titulos_selecionados
 
-def raspar_e_selecionar_noticias(url, palavras_chave):
-    manchetes = raspar_noticias(url)
-    manchetes_selecionadas = selecionar_noticias_com_palavra_chave(manchetes, palavras_chave)
-    df = pd.DataFrame(manchetes_selecionadas, columns=['Título', 'Link'])
-    return df
-
-url = 'https://noticias.uol.com.br/'
-palavras_chave = ['afogada', 'agredida', 'agrediu', 'agressão', 'amante', 'arma', 'assassinada', 'assassinadas', 'assassinato', 'assassinou', 'atirou', 'casamento', 'chuta', 'companheiro', 'consentimento', 'corpo', 'deputada', 'esfaqueada', 'esposa', 'estupro', 'ex-marido', 'ex-namorado', 'faca', 'facada', 'feminicídio', 'filha', 'gênero', 'machismo', 'machista', 'matar', 'marido', 'mataram', 'matava', 'matou', 'matamos', 'menina', 'morta', 'mortas', 'mortes', 'morre', 'morreu', 'mordida', 'mulher', 'namorada', 'queimada', 'sexual', 'tapa', 'tiro', 'vítima', 'violência', 'vereadora']
-
-df_noticias_selecionadas = raspar_e_selecionar_noticias(url, palavras_chave)
-print(df_noticias_selecionadas)
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
