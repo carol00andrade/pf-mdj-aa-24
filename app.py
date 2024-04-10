@@ -3,6 +3,7 @@
 from flask import Flask, request, render_template
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd 
 
 app = Flask(__name__)
 
