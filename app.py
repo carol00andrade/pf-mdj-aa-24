@@ -88,26 +88,34 @@ Envia matérias selecionadas da home do dia:
 
 return titulos_selecionados
 
-smtp_server = "smtp-relay.brevo.com"
-port = 587
-email = "carol00andrade@gmail.com"
-password = "secreto" 
+def envia_email():
+    smtp_server = "smtp-relay.brevo.com"
+    port = 587
+    email = "carol00andrade@gmail.com" 
+    password = 
 
-# Dados para o email que será enviado:
-remetente = "Ana Carolina Andrade" 
-destinatarios = ["carol00andrade@gmail.com"]  
-titulo = "Raspagem de notícias sobre violência contra as mulheres: UOL"
-html = """
+    remetente = request.form['email']
+    destinatario = ["carol00andrade@gmail.com", 'alvarojusten@gmail.com']
+    titulo = request.form['titulo']
+    corpo = request.form['corpo']
 
-    server = smtplib.SMTP(smtp_server, port)
-    server.starttls()
-    server.login(email, password)
+    server = smtplib.SMTP(smtp_server, port) 
+    server.starttls()  
+    server.login(email, password) 
 
+    # Preparando o objeto da mensagem ("documento" do email):
     mensagem = MIMEMultipart()
     mensagem["From"] = remetente
-    mensagem["To"] = ",".join(destinatarios)
-    mensagem["Subject"] = titulo_email
-    conteudo_html = MIMEText(html, "html")
-    mensagem.attach(conteudo_html)
+    mensagem["To"] = ", ".join(destinatario)
+    mensagem["Subject"] = titulo
 
-    server.sendmail(remetente, destinatarios, mensagem.as_string())
+    # Adicionando o corpo do e-mail como parte da mensagem
+    mensagem.attach(MIMEText(corpo, 'plain'))
+
+    # Enviando o email pela conexão já estabelecida:
+    server.sendmail(remetente, destinatario, mensagem.as_string())
+    server.quit()  
+    return 'E-mail enviado'
+
+if __name__ == "__main__":
+    app.run(debug=True)
