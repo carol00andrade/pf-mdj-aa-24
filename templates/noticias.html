@@ -3,65 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Menu</title>
+    <title>Notícias</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <form action="/noticias" method="get">
-        <label for="palavraChave">Escolha uma palavra-chave:</label>
-        <select id="palavraChave" name="palavra_chave">
-            <option value="afogada">afogada</option>
-            <option value="agredida">agredida</option>
-           <option value="agrediu">agrediu</option>
-        <option value="agressão">agressão</option>
-        <option value="amante">amante</option>
-        <option value="arma">arma</option>
-        <option value="assassinada">assassinada</option>
-        <option value="assassinadas">assassinadas</option>
-        <option value="assassinato">assassinato</option>
-        <option value="assassinou">assassinou</option>
-        <option value="atirou">atirou</option>
-        <option value="casamento">casamento</option>
-        <option value="chuta">chuta</option>
-        <option value="companheiro">companheiro</option>
-        <option value="consentimento">consentimento</option>
-        <option value="corpo">corpo</option>
-        <option value="deputada">deputada</option>
-        <option value="esfaqueada">esfaqueada</option>
-        <option value="esposa">esposa</option>
-        <option value="estupro">estupro</option>
-        <option value="ex-marido">ex-marido</option>
-        <option value="ex-namorado">ex-namorado</option>
-        <option value="faca">faca</option>
-        <option value="facada">facada</option>
-        <option value="feminicídio">feminicídio</option>
-        <option value="filha">filha</option>
-        <option value="gênero">gênero</option>
-        <option value="machismo">machismo</option>
-        <option value="machista">machista</option>
-        <option value="matar">matar</option>
-        <option value="marido">marido</option>
-        <option value="mataram">mataram</option>
-        <option value="matava">matava</option>
-        <option value="matou">matou</option>
-        <option value="matamos">matamos</option>
-        <option value="menina">menina</option>
-        <option value="morta">morta</option>
-        <option value="mortas">mortas</option>
-        <option value="mortes">mortes</option>
-        <option value="morre">morre</option>
-        <option value="morreu">morreu</option>
-        <option value="mordida">mordida</option>
-        <option value="mulher">mulher</option>
-        <option value="namorada">namorada</option>
-        <option value="queimada">queimada</option>
-        <option value="sexual">sexual</option>
-        <option value="tapa">tapa</option>
-        <option value="tiro">tiro</option>
-        <option value="vítima">vítima</option>
-        <option value="violência">violência</option>
-        <option value="vereadora">vereadora</option>
+    <h1>Escolha uma palavra-chave:</h1>
+    <select id="palavraChave">
+        <option value="">Selecione uma opção</option>
+        {% for palavra in palavras_chave_disponiveis %}
+            <option value="{{ palavra }}">{{ palavra }}</option>
+        {% endfor %}
     </select>
-        <button type="submit">Buscar</button>
-    </form>
+    <button id="buscarNoticias">Buscar</button>
+    <div id="resultado"></div>
+
+    <script>
+        $(document).ready(function() {
+            $("#buscarNoticias").click(function() {
+                var palavraChave = $("#palavraChave").val();
+                if (palavraChave) {
+                    $.get("/noticias", { palavra_chave: palavraChave }, function(data) {
+                        $("#resultado").html(data);
+                    });
+                } else {
+                    alert("Por favor, selecione uma palavra-chave.");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
