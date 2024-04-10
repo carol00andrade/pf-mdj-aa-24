@@ -90,28 +90,26 @@ return titulos_selecionados
 
 smtp_server = "smtp-relay.brevo.com"
 port = 587
-email = ""  # MUDE AQUI
-password = ""  # MUDE AQUI
+email = "carol00andrade@gmail.com"
+password = "secreto" 
 
 # Dados para o email que será enviado:
-remetente = ""  # MUDE AQUI
-destinatarios = [""]  # MUDE AQUI
+remetente = "Ana Carolina Andrade" 
+destinatarios = ["carol00andrade@gmail.com"]  
 titulo = "Raspagem de notícias sobre violência contra as mulheres: UOL"
 html = """
 
-server = smtplib.SMTP(smtp_server, port)  
-server.starttls() 
-server.login(email, password) 
+    server = smtplib.SMTP(smtp_server, port)
+    server.starttls()
+    server.login(email, password)
 
-mensagem = MIMEMultipart()
-mensagem["From"] = Ana Carolina Andrade
-mensagem["To"] = "carol00andrade@gmail.com".join(destinatarios)
-mensagem["Subject"] = Raspagem de notícias sobre violência contra as mulheres: UOL
-conteudo_html = MIMEText(html, "html") 
-mensagem.attach(conteudo_html)
+    mensagem = MIMEMultipart()
+    mensagem["From"] = remetente
+    mensagem["To"] = ",".join(destinatarios)
+    mensagem["Subject"] = titulo_email
+    conteudo_html = MIMEText(html, "html")
+    mensagem.attach(conteudo_html)
 
-# Enviando o email pela conexão já estabelecida:
-server.sendmail(remetente, destinatarios, mensagem.as_string())
+    server.sendmail(remetente, destinatarios, mensagem.as_string())
 
-
-
+    return html
