@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Menu</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <select id="palavraChave">
-        <option value="">Selecione uma palavra-chave</option>
-        <option value="afogada">afogada</option>
-        <option value="agredida">agredida</option>
-       <option value="agrediu">agrediu</option>
+    <form action="/noticias" method="get">
+        <label for="palavraChave">Escolha uma palavra-chave:</label>
+        <select id="palavraChave" name="palavra_chave">
+            <option value="afogada">afogada</option>
+            <option value="agredida">agredida</option>
+           <option value="agrediu">agrediu</option>
         <option value="agressão">agressão</option>
         <option value="amante">amante</option>
         <option value="arma">arma</option>
@@ -61,22 +61,7 @@
         <option value="violência">violência</option>
         <option value="vereadora">vereadora</option>
     </select>
-
-    <button id="buscarNoticias">Buscar</button>
-
-    <div id="resultado"></div>
-
-    <script>
-        $(document).ready(function() {
-            $("#buscarNoticias").click(function() {
-                var palavraChave = $("#palavraChave").val();
-                if (palavraChave) {
-                    window.location.href = "/noticias?palavra_chave=" + palavraChave;
-                } else {
-                    alert("Por favor, selecione uma palavra-chave.");
-                }
-            });
-        });
-    </script>
+        <button type="submit">Buscar</button>
+    </form>
 </body>
 </html>
