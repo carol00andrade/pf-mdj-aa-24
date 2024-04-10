@@ -80,7 +80,7 @@ if __name__ == "__main__":
 smtp_server = "smtp-relay.brevo.com"
 port = 587
 email = "carol00andrade@gmail.com"
-password = "os.environ" 
+password = os.environ
 
 # Dados para o email que será enviado:
 remetente = "Ana Carolina Andrade" 
