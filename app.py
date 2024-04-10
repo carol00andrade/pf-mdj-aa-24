@@ -3,6 +3,12 @@
 from flask import Flask, request, render_template
 import requests
 from bs4 import BeautifulSoup
+import re
+import smtplib
+import unicodedata
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from lxml.html import document_fromstring
 
 app = Flask(__name__)
 
@@ -68,5 +74,44 @@ def selecionar_noticias_com_palavra_chave(noticias, palavras_chave):
 if __name__ == "__main__":
     app.run(debug=True)
 
-
 ## Envio de e-mails da Raspagem de Dados
+
+def normaliza(texto):
+  "Normaliza um texto retirando acentos, caracteres especiais e espaços desnecessários"
+  texto = texto.lower()
+  texto = unicodedata.normalize("NFKD", texto).encode("ascii", errors="ignore").decode("ascii")
+  texto = re.sub(r"[^\w\s]", "", texto)
+  texto = re.sub(r"\s+", " ", texto)
+  return texto.strip()
+
+Envia matérias selecionadas da home do dia:
+
+return titulos_selecionados
+
+smtp_server = "smtp-relay.brevo.com"
+port = 587
+email = ""  # MUDE AQUI
+password = ""  # MUDE AQUI
+
+# Dados para o email que será enviado:
+remetente = ""  # MUDE AQUI
+destinatarios = [""]  # MUDE AQUI
+titulo = "Raspagem de notícias sobre violência contra as mulheres: UOL"
+html = """
+
+server = smtplib.SMTP(smtp_server, port)  
+server.starttls() 
+server.login(email, password) 
+
+mensagem = MIMEMultipart()
+mensagem["From"] = Ana Carolina Andrade
+mensagem["To"] = "carol00andrade@gmail.com".join(destinatarios)
+mensagem["Subject"] = Raspagem de notícias sobre violência contra as mulheres: UOL
+conteudo_html = MIMEText(html, "html") 
+mensagem.attach(conteudo_html)
+
+# Enviando o email pela conexão já estabelecida:
+server.sendmail(remetente, destinatarios, mensagem.as_string())
+
+
+
