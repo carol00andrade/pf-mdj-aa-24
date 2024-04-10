@@ -3,6 +3,7 @@
 from flask import Flask, request, render_template
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 import os
 import re
 import smtplib
@@ -30,8 +31,7 @@ def curriculo ():
 ## Página dinâmica para exibir notícias filtradas por palavra-chave
 
 @app.route("/noticias")
-def noticias():
-    palavra_chave = request.args.get('palavra_chave', ' ')
+def noticias(palavra_chave):
     if not palavra_chave:
         return "Por favor, especifique uma palavra-chave na URL."
     url = 'https://noticias.uol.com.br/'
@@ -40,8 +40,8 @@ def noticias():
         return "Palavra-chave inválida. Por favor, escolha uma das palavras-chave disponíveis."
     manchetes_selecionadas = raspar_e_selecionar_noticias(url, [palavra_chave])
     noticias_html = manchetes_selecionadas.to_html(index=False)
-    return render_template("noticias.html", noticias_html=noticias_html)
-    
+    return noticias_html
+
 def raspar_e_selecionar_noticias(url, palavras_chave):
     manchetes = raspar_noticias(url)
     manchetes_selecionadas = selecionar_noticias_com_palavra_chave(manchetes, palavras_chave)
@@ -72,8 +72,10 @@ def selecionar_noticias_com_palavra_chave(noticias, palavras_chave):
                 break  
     return titulos_selecionados
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# Exemplo:
+palavra_chave = 'afogada'
+noticias_html = noticias(palavra_chave)
+print(noticias_html)
 
 ## Dados para conexão no servidor SMTP:
 
