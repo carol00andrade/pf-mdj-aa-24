@@ -3,7 +3,6 @@
 from flask import Flask, request, render_template
 import requests
 from bs4 import BeautifulSoup
-pip install lxml
 
 app = Flask(__name__)
 
