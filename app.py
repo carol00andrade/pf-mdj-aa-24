@@ -68,3 +68,5 @@ def selecionar_noticias_com_palavra_chave(noticias, palavras_chave):
 if __name__ == "__main__":
     app.run(debug=True)
 
+
+## Envio de Emails da Raspagem de Dados
