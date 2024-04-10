@@ -90,7 +90,7 @@ html = """
 <html>
 <body>
 <h1>Raspagem de notícias sobre violência de gênero no UOL</h1>
-<p>Olá, este é um email automático gerado pela raspagem de notícias sobre violência de gênero no site UOL.</p>
+<p>Olá, este é um e-mail automático gerado pela raspagem de notícias sobre violência de gênero no site UOL.</p>
 </body>
 </html>
 """
