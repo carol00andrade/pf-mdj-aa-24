@@ -74,36 +74,25 @@ def selecionar_noticias_com_palavra_chave(noticias, palavras_chave):
 if __name__ == "__main__":
     app.run(debug=True)
 
-## Envio de e-mails da Raspagem de Dados
+## Dados para conexão no servidor SMTP:
 
-def normaliza(texto):
-  "Normaliza um texto retirando acentos, caracteres especiais e espaços desnecessários"
-  texto = texto.lower()
-  texto = unicodedata.normalize("NFKD", texto).encode("ascii", errors="ignore").decode("ascii")
-  texto = re.sub(r"[^\w\s]", "", texto)
-  texto = re.sub(r"\s+", " ", texto)
-  return texto.strip()
-
-def selecionar_noticias_com_palavra_chave(noticias, palavras_chave):
-    titulos_selecionados = []
-    for titulo, link in noticias:
-        for palavra in palavras_chave:
-            if palavra in titulo.lower():
-                titulos_selecionados.append([titulo, link])
-                break  
-    return titulos_selecionados
-
-# Dados para conexão no servidor SMTP:
 smtp_server = "smtp-relay.brevo.com"
 port = 587
 email = "carol00andrade@gmail.com"
-password = ""  # MUDE AQUI
+password = "carol00andrade" 
 
 # Dados para o email que será enviado:
 remetente = "Ana Carolina Andrade" 
-destinatarios = ["carol00andrade; alvarojusten@gmail.com"]
+destinatarios = ["carol00andrade@gmail.com", "alvarojusten@gmail.com"]
 titulo = "Raspagem de notícias sobre violência de gênero no UOL"
 html = """
+<html>
+<body>
+<h1>Raspagem de notícias sobre violência de gênero no UOL</h1>
+<p>Olá, este é um email automático gerado pela raspagem de notícias sobre violência de gênero no site UOL.</p>
+</body>
+</html>
+"""
 
 # Iniciando conexão com o servidor:
 server = smtplib.SMTP(smtp_server, port)  # Inicia a conexão com o servidor
@@ -121,3 +110,5 @@ mensagem.attach(conteudo_html)
 # Enviando o email pela conexão já estabelecida:
 server.sendmail(remetente, destinatarios, mensagem.as_string())
 
+# Fechando a conexão com o servidor SMTP:
+server.quit()
