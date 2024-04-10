@@ -111,5 +111,3 @@ html = """
     mensagem.attach(conteudo_html)
 
     server.sendmail(remetente, destinatarios, mensagem.as_string())
-
-    return html
