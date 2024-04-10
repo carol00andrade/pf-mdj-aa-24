@@ -69,4 +69,4 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-## Envio de Emails da Raspagem de Dados
+## Envio de e-mails da Raspagem de Dados
